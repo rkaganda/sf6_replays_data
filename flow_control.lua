@@ -427,6 +427,7 @@ local function get_target_state()
             search_text = nil
         end
         last_target_ui_state_name = target_ui_state_name
+    end
 end
 
 
