@@ -12,6 +12,7 @@ local p1 = {}
 local p2 = {}
 local replay_table = {}
 local round_number = 0
+local round_timer = 0
 local stage_timer = 0
 local replay_saved = false
 local data_reset = false
@@ -167,10 +168,12 @@ re.on_frame(function()
         local sRound = gBattle:get_field("Round"):get_data(nil) -- get round number
         local sGame = gBattle:get_field("Game"):get_data(nil) -- get game timer
         local fInput = gBattle:get_field("Input"):get_data(nil)
+        local bRound = gBattle:get_field("Round"):get_data(nil)
 
         if sGame.fight_st ~=0 then
             round_number = sRound.RoundNo
             stage_timer = sGame.stage_timer
+            round_timer = bRound.play_timer
             local capture_frame = false
 
             local sPlayer = gBattle:get_field("Player"):get_data(nil)
