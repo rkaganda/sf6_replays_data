@@ -8,6 +8,7 @@
 - Python 3.11.x 
     - interface between REframework scripts and OBS
     - parse json replays
+
 - OBS (with websocket)
     - captures SF6 replay video 
 
@@ -32,17 +33,22 @@
     - detects when replay is running via flow_control.lua
     - communicate with OBS via websocket to capture replay
 
-- sf6_obs_replay_capture.py
-    - detects when replay is running via flow_control.lua
-    - communicate with OBS via websocket to capture replay 
-    - renames saved video to cfn id after replay is complete
 
 #### Replay Data Storage
+- upload_replay_db.py
+    - uploads replay and cfn data from the replay to db
+
+- upload_replay_youtube.py
+    - detects round starts and stores them in db
+    - uploads replay to youtube
+
+## Setup
 - create_db_tables.py
     - creates tables to store replay data
 
-- upload_replay_db.py
-    - uploads replay and cfn data from the replay to db
+- generate_youtube_token.py
+    - creates token required for youtube uploads
+
 
 
 ## Config Files
@@ -56,8 +62,11 @@
     - ```SF6_DB_USERNAME```
     - ```SF6_DB_PASSWORD```
     - ```SF6_DB_SCHEMA```
+    - ```YOUTUBE SECRET```
+    - ```YOUTUBE TOKEN```
 
 - paths.lua (reframework lua scripts)
+
 
 
 

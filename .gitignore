@@ -2,5 +2,11 @@
 *.env
 .vscode/
 venv/*
-
-
+testing/*
+rkaganda_replay_data.code-workspace
+.gitignore
+TODO
+migrations/*
+alembic.ini
+secrets/*    
+setup.sh

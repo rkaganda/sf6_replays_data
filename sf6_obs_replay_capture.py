@@ -17,7 +17,7 @@ OBS_HOST = os.getenv('OBS_HOST')
 OBS_PORT = os.getenv('OBS_PORT')
 OBS_PASSWORD = os.getenv('OBS_PASSWORD')
 
-logger = logging.getLogger('sf6_replay_capture')
+logger = logging.getLogger('sf6_replay_video_capture')
 logger.setLevel(logging.DEBUG)
 handler = logging.FileHandler(LOG_PATH, encoding='utf-8', mode='a')
 handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
