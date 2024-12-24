@@ -52,6 +52,8 @@ def create_cfn_replay_if_not_exists(session, replay_data):
             id = replay_data['replay_id'],
             player_0_id = replay_data['player_data']['player_1_cfn_id'],
             player_1_id = replay_data['player_data']['player_2_cfn_id'],
+            player_0_character_id = replay_data['player_data']['player_0_id'],
+            player_1_character_id = replay_data['player_data']['player_0_id'],
             player_one_input_type = replay_data['player_data']['player_1_input_type'],
             player_two_input_type = replay_data['player_data']['player_2_input_type'],
             replay_battle_type = replay_data['replay_battle_type']

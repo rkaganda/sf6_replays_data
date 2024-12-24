@@ -86,6 +86,8 @@ class CFNReplay(Base):
     id = Column(String, primary_key=True)
     player_0_id = Column(BigInteger, ForeignKey('cfn_users.id', ondelete='CASCADE'), nullable=False)
     player_1_id = Column(BigInteger, ForeignKey('cfn_users.id', ondelete='CASCADE'), nullable=False)
+    player_0_character_id = Column(Integer, ForeignKey('sf6_characters.id', ondelete='CASCADE'), nullable=False)
+    player_1_character_id = Column(Integer, ForeignKey('sf6_characters.id', ondelete='CASCADE'), nullable=False)
     player_one_input_type = Column(Integer, nullable=False)
     player_two_input_type = Column(Integer, nullable=False)
     replay_battle_type = Column(Integer, nullable=False)
@@ -105,8 +107,8 @@ class VideoReplayTiming(Base):
 class YoutubeReplayVideo(Base):
     __tablename__ = "youtube_video_replay"
     id = Column(Integer, primary_key=True, autoincrement=True)
-    youtube_video_id = Column(String, nullable=False)
-    cfn_replay_id = Column(String, ForeignKey('cfn_replays.id', ondelete='CASCADE'), nullable=False)
+    youtube_video_id = Column(String, nullable=False, unique=True)
+    cfn_replay_id = Column(String, ForeignKey('cfn_replays.id', ondelete='CASCADE'), nullable=False, unique=True)
     __table_args__ = (
         UniqueConstraint('cfn_replay_id', 'youtube_video_id', name='uix_youtube_video_replay_cfn_replay_id_youtube_video_id'),
     )

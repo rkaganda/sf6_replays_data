@@ -186,10 +186,8 @@ def main():
     video_path = sys.argv[1]
     template_path = "data/fight_region_div32_11_7_4_4.png"
 
-    file_path = "/".join(video_path.split('/')[:-1])
-    replay_id = video_path.split('/')[-1].split(".")[0]
-
-    print(f"file_path={file_path}")
+    print(f"video_path={video_path}")
+    replay_id = os.path.splitext(os.path.basename(video_path))[0]
     print(f"replay_id={replay_id}")
 
     video_cap = cv2.VideoCapture(video_path)
