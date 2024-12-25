@@ -201,6 +201,8 @@ def bulk_insert_rounds(session, replay_data):
                     row[f'p{player_num}_posx'] = frame_data[player_tag]['posX']
                     row[f'p{player_num}_posy'] = frame_data[player_tag]['posY']
                     row[f'p{player_num}_super'] = frame_data[player_tag]['super']
+                    row[f'p{player_num}_hitstun'] = frame_data[player_tag]['_blockstun']
+                    row[f'p{player_num}_blockstun'] = frame_data[player_tag]['_blockstun']
                 except ValueError as v:
                     print(f"frame_data={frame_data}")
                     raise v

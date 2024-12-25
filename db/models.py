@@ -63,6 +63,8 @@ class CFNRawReplay(Base):
     p0_posx = Column(Float, nullable=False)
     p0_posy = Column(Float, nullable=False)
     p0_super = Column(Float, nullable=False)
+    p0_hitstun = Column(Integer, nullable=False)
+    p0_blockstun = Column(Integer, nullable=False)
 
     p1_hp_cap = Column(Float, nullable=False)
     p1_hp_cooldown = Column(Float, nullable=False)
@@ -79,6 +81,8 @@ class CFNRawReplay(Base):
     p1_posx = Column(Float, nullable=False)
     p1_posy = Column(Float, nullable=False)
     p1_super = Column(Float, nullable=False)
+    p1_hitstun = Column(Integer, nullable=False)
+    p1_blockstun = Column(Integer, nullable=False)
 
 
 class CFNReplay(Base):
