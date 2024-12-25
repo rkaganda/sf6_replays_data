@@ -132,20 +132,22 @@ def populate_move_name_mapping(replay_data):
     with (db.SessionMaker() as session):
         try:
             for move_mapping in move_mappings:
-                    move_name_mapping = session.query(MoveNameMapping).filter_by(
+                move_name_mapping = session.query(MoveNameMapping).filter_by(
+                    character_id=move_mapping[0],
+                    m_action_id=move_mapping[1],
+                    act_st=move_mapping[2]
+                ).first()
+                print(f"move_name_mapping={move_name_mapping}")
+
+                if not move_name_mapping:
+                    move_name_mapping = MoveNameMapping(
                         character_id=move_mapping[0],
                         m_action_id=move_mapping[1],
-                        act_st=move_mapping[2]
-                    ).first()
-
-                    if not move_name_mapping:
-                        move_name_mapping = MoveNameMapping(
-                            character_id=move_mapping[0],
-                            m_action_id=move_mapping[1],
-                            act_st=move_mapping[2],
-                            move_name=""
-                        )
-                        session.add(move_name_mapping)
+                        act_st=move_mapping[2],
+                        move_name=""
+                    )
+                    session.add(move_name_mapping)
+            session.commit()
         except Exception as e:
             session.rollback()
             raise e
