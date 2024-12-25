@@ -1,5 +1,5 @@
 import json
-from db.models import CFNReplayRound, CFNUserName, CFNRawReplay, CFNUser, CFNReplay
+from db.models import CFNReplayRound, CFNUserName, CFNRawReplay, CFNUser, CFNReplay, MoveNameMapping
 from db import db
 import sys
 
@@ -108,6 +108,51 @@ def upsert_cfn_replay_rounds(session, replay_data):
     return round_result
 
 
+def populate_move_name_mapping(replay_data):
+    move_mappings = set()
+    round_numbers = [
+        round_number 
+        for round_number, round_result in replay_data['round_results'].items() 
+        if round_result['finish_type'] != 0
+    ]      
+    for round_number in round_numbers:
+        for _, frame_data in replay_data[round_number].items():
+            for player_tag in ['p1','p2']:
+                try:
+                    player_num = int(player_tag[1]) - 1
+                    move_mappings.add((
+                        replay_data['player_data'][f'player_{player_num}_id'],
+                        frame_data[player_tag]['mActionId'],
+                        frame_data[player_tag]['act_st']
+                    ))
+                except KeyError as e:
+                    print(replay_data['player_data'])
+                    print(f"Missing data for {player_tag} in round {round_number}: {e}")
+                    raise e
+    with (db.SessionMaker() as session):
+        try:
+            for move_mapping in move_mappings:
+                    move_name_mapping = session.query(MoveNameMapping).filter_by(
+                        character_id=move_mapping[0],
+                        m_action_id=move_mapping[1],
+                        act_st=move_mapping[2]
+                    ).first()
+
+                    if not move_name_mapping:
+                        move_name_mapping = MoveNameMapping(
+                            character_id=move_mapping[0],
+                            m_action_id=move_mapping[1],
+                            act_st=move_mapping[2],
+                            move_name=""
+                        )
+                        session.add(move_name_mapping)
+        except Exception as e:
+            session.rollback()
+            raise e
+                
+               
+
+
 def bulk_insert_rounds(session, replay_data):
     cfn_replay = session.query(CFNReplay).filter_by(
         id=replay_data['replay_id']
@@ -167,6 +212,7 @@ def upload_replay_to_db(file_path):
     try:
         with open(f"{file_path}", 'r',encoding='utf-8') as f:
             replay_data = json.load(f)
+            populate_move_name_mapping(replay_data)
     except Exception as e:
         raise e
 
@@ -183,8 +229,7 @@ def upload_replay_to_db(file_path):
         except Exception as e:
             session.rollback()
             raise e
-        finally:
-            session.close()
+        
             
 def main():
     if len(sys.argv) < 2:
