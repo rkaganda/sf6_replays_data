@@ -43,8 +43,13 @@
     - uploads replay to youtube
 
 ## Setup
-- create_db_tables.py
-    - creates tables to store replay data
+- export_names.lua 
+    - pulls act_st and stance from SF6, stores json in ```data\enum\```
+    - pulls character mActionNames for characters play, stores json in ```data\enum\characters```
+- setup_db.py
+    - ```-create_tables``` creates tables to store replay data, suggest using ```alembic``` instead
+    - ```-update_sf6_data``` populates db with sf6 data from data\enum
+
 
 - generate_youtube_token.py
     - creates token required for youtube uploads

@@ -8,16 +8,35 @@ class SF6Character(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False, unique=True)
 
+class ActStName(Base):
+    __tablename__ = "act_st_names"
+    id = Column(Integer, primary_key=True)
+    name = Column(String, nullable=False)
+
+class StanceName(Base):
+    __tablename__ = "stance_names"
+    id = Column(Integer, primary_key=True)
+    name = Column(String, nullable=False)
+
+class MActionName(Base):
+    __tablename__ = "m_action_names"
+    id= Column(Integer, primary_key=True, autoincrement=True)
+    m_action_id = Column(Integer, nullable=False)
+    character_id = Column(Integer, ForeignKey('sf6_characters.id', ondelete='CASCADE'))
+    name = Column(String, nullable=False)
+
 class MoveNameMapping(Base):
     __tablename__ = "move_name_mappings"
     id = Column(Integer, primary_key=True, autoincrement=True)
     character_id = Column(Integer, ForeignKey('sf6_characters.id', ondelete='CASCADE'))
-    m_action_id = Column(Integer, nullable=False)
     act_st = Column(Integer, nullable=False)
+    m_action_id = Column(Integer, nullable=False)
     move_name = Column(String, nullable=False)
     __table_args__ = (
         UniqueConstraint('character_id', 'm_action_id', 'act_st',name='uix_character_id_m_action_id_act_st'),
     )
+
+
 
 class CFNUser(Base):
     __tablename__ = "cfn_users"

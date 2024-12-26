@@ -10,3 +10,4 @@ migrations/*
 alembic.ini
 secrets/*    
 setup.sh
+/data/enums/*
