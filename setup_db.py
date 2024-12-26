@@ -109,7 +109,7 @@ def populate_character_names():
                         m_action = session.query(MActionName).filter_by(
                             m_action_id=int(maction_id),
                             character_id=character.id
-                        )
+                        ).first()
 
                         if not m_action:
                             m_action=MActionName(

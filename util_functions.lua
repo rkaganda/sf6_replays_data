@@ -98,4 +98,28 @@ function util_functions.get_enum(typename)
 	return enums[typename]
 end
 
+function util_functions.lua_get_array(src_obj, allow_empty)
+	if not src_obj then return (allow_empty and {}) end
+	src_obj = src_obj._items or src_obj.mItems or src_obj
+	local system_array
+	if src_obj.get_Count then
+		system_array = {}
+		for i=1, src_obj:call("get_Count") do
+			system_array[i] = src_obj:get_Item(i-1)
+		end
+	end
+	system_array = system_array or src_obj.get_elements and src_obj:get_elements() 
+	return (allow_empty and system_array) or (system_array and system_array[1] and system_array)
+end
+
+function util_functions.get_unique_name(start_name, used_names_list)
+	local ctr = 0
+	local nm = start_name
+	while used_names_list[nm] do 
+		ctr = ctr + 1
+		nm = start_name.."("..ctr..")"
+	end
+	return nm
+end
+
 return util_functions

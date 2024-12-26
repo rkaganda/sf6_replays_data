@@ -45,6 +45,7 @@
 ## Setup
 - export_names.lua 
     - pulls act_st and stance from SF6, stores json in ```data\enum\```
+- export_actions.lua 
     - pulls character mActionNames for characters play, stores json in ```data\enum\characters```
 - setup_db.py
     - ```-create_tables``` creates tables to store replay data, suggest using ```alembic``` instead
