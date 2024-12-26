@@ -137,7 +137,6 @@ def populate_move_name_mapping(replay_data):
                     m_action_id=move_mapping[1],
                     act_st=move_mapping[2]
                 ).first()
-                print(f"move_name_mapping={move_name_mapping}")
 
                 if not move_name_mapping:
                     move_name_mapping = MoveNameMapping(
@@ -201,8 +200,8 @@ def bulk_insert_rounds(session, replay_data):
                     row[f'p{player_num}_posx'] = frame_data[player_tag]['posX']
                     row[f'p{player_num}_posy'] = frame_data[player_tag]['posY']
                     row[f'p{player_num}_super'] = frame_data[player_tag]['super']
-                    row[f'p{player_num}_hitstun'] = frame_data[player_tag]['_blockstun']
-                    row[f'p{player_num}_blockstun'] = frame_data[player_tag]['_blockstun']
+                    row[f'p{player_num}_hitstun'] = frame_data[player_tag]['hitstun']
+                    row[f'p{player_num}_blockstun'] = frame_data[player_tag]['blockstun']
                 except ValueError as v:
                     print(f"frame_data={frame_data}")
                     raise v

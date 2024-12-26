@@ -27,7 +27,7 @@ def populate_stances():
                 ).first()
 
                 if not stance:
-                    stance = ActStName(
+                    stance = StanceName(
                         id=stance_id,
                         name=stance_name
                     )
@@ -126,18 +126,22 @@ def populate_character_names():
                     
 
 def main():
-    options =  ['-create_tables', '-update_sf6_data']
-    if len(sys.argv) < 2:
-        if str(sys.argv[2]) == '-create_tables':
+    options = ['create_tables', 'update_sf6_data']
+
+    if len(sys.argv) > 1:
+        command = sys.argv[1]
+        
+        if command == 'create_tables':
             create_tables()
-        elif str(sys.argv[2]) == '-update_sf6_data':
+        elif command == 'update_sf6_data':
             populate_stances()
             populate_act_sts()
             populate_character_names()
         else:
-            print(f"Unknown {sys.argv[2]}. Options[{('').join(options)}]")
+            print(f"Unknown option: {command}. Available options: {', '.join(options)}")
     else:
-        print(f"python setup_db.py [{('').join(options)}]")
+        print(f"Usage: python setup_db.py [ {' | '.join(options)} ]")
+
 
 if __name__=="__main__":
     main()
