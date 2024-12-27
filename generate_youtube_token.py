@@ -8,7 +8,8 @@ def main():
     YOUTUBE_SECRET_PATH = os.getenv('YOUTUBE_SECRET_PATH')
     YOUTUBE_TOKEN_PATH = os.getenv('YOUTUBE_TOKEN_PATH')
 
-    SCOPES = ["https://www.googleapis.com/auth/youtube.upload"]
+    SCOPES = ["https://www.googleapis.com/auth/youtube.upload",
+              "https://www.googleapis.com/auth/youtube.readonly"]
 
     flow = InstalledAppFlow.from_client_secrets_file(
         YOUTUBE_SECRET_PATH, SCOPES
