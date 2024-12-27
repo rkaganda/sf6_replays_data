@@ -33,10 +33,11 @@ def capture_frame(video_cap, frame_number):
 
 
 def get_round_starts(video_cap, template_image):
+    print("Checking for round starts...")
     video_cap.set(cv2.CAP_PROP_POS_FRAMES, 0)
     fps = video_cap.get(cv2.CAP_PROP_FPS)
     frame_num = 0
-    compare_threshold = .84
+    compare_threshold = .65
 
     # capture region
     width = int(video_cap.get(cv2.CAP_PROP_FRAME_WIDTH))
@@ -56,7 +57,12 @@ def get_round_starts(video_cap, template_image):
         region = frame[y:y+h, x:x+w]
 
         ncc_score = cv2.matchTemplate(region, template_image, cv2.TM_CCOEFF_NORMED)
+        highest_ncc = [-1,-1]
         min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(ncc_score)
+        if (max_val>highest_ncc[0]):
+            highest_ncc[0] = max_val
+            highest_ncc[1] = frame_num
+
         if(max_val > compare_threshold and not prev_frame_matched) :
             print(f"match on {frame_num} ncc_score={max_val}")
             best_regions.append({
@@ -75,6 +81,8 @@ def get_round_starts(video_cap, template_image):
     round_starts = []
     last_time_seconds = 0
     seconds_margin = 5
+    if len(best_regions) == 0:
+        print(f"NO ROUNDS! {highest_ncc}")
     for best in best_regions:
         if best['seconds_time'] - last_time_seconds > seconds_margin:
             round_starts.append(int(best['seconds_time']+1))
@@ -94,6 +102,10 @@ def store_round_starts_in_db(round_starts, cfn_replay_id):
 
             if not cfn_replay:
                 raise Exception(f"No CFN replay {cfn_replay_id}.")
+            
+            session.query(VideoReplayTiming).filter_by(
+                cfn_replay_id=cfn_replay_id
+            ).delete()
             
             for round_number, round_start in enumerate(round_starts):
                 video_replay_timing = VideoReplayTiming(
@@ -116,7 +128,8 @@ def upload_replay_to_youtube(video_path, replay_id):
     youtube_video_id = None
     YOUTUBE_TOKEN_PATH = os.getenv('YOUTUBE_TOKEN_PATH')
 
-    SCOPES = ["https://www.googleapis.com/auth/youtube.upload"]
+    SCOPES = ["https://www.googleapis.com/auth/youtube.upload",
+              "https://www.googleapis.com/auth/youtube.readonly"]
 
     if os.path.exists(YOUTUBE_TOKEN_PATH):
         credentials = Credentials.from_authorized_user_file(YOUTUBE_TOKEN_PATH, SCOPES)
@@ -206,14 +219,8 @@ def upload_replay_to_youtube(video_path, replay_id):
         raise e
     finally:
         session.close()
- 
 
-def main():
-    if len(sys.argv) < 2:
-        print("python upload_replay_db.py 'replay.json'")
-        return
-    
-    video_path = sys.argv[1]
+def upload_replay(video_path):
     template_path = "data/fight_region_div32_11_7_4_4.png"
 
     print(f"video_path={video_path}")
@@ -232,9 +239,16 @@ def main():
     upload_replay_to_youtube(video_path, replay_id)
     video_cap.release()
     print(f"Done.")
+ 
 
-
-
+def main():
+    if len(sys.argv) < 2:
+        print("python upload_replay_db.py 'replay.json'")
+        return
+    
+    video_path = sys.argv[1]
+    upload_replay_to_youtube(video_path)
+    
 
 if __name__=="__main__":
     main()

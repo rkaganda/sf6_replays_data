@@ -15,4 +15,3 @@ db_path = f"postgresql://{SF6_DB_USERNAME}:{SF6_DB_PASSWORD}@{SF6_DB_PATH}"
 engine = sqlalchemy.create_engine(f"{db_path}", connect_args={'options': f'-csearch_path={SF6_DB_SCHEMA}'})
 SessionMaker = sessionmaker(bind=engine)
 
-
