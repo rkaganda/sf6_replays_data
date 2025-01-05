@@ -3,7 +3,7 @@ import cv2
 from dotenv import load_dotenv
 from db import db
 from db.models import CFNReplay, YoutubeReplayVideo
-from replay_timing import update_timing
+import src.replay_timing as replay_timing
 import os
 from google.auth.transport.requests import Request
 from googleapiclient.discovery import build
@@ -110,22 +110,12 @@ def upload_replay_to_youtube(video_path, replay_id):
         session.close()
 
 def upload_replay(video_path):
-    template_path = "data/fight_region_div32_11_7_4_4.png"
-
     print(f"video_path={video_path}")
     replay_id = os.path.splitext(os.path.basename(video_path))[0]
     print(f"replay_id={replay_id}")
 
-    video_cap = cv2.VideoCapture(video_path)
-    template_image = cv2.imread(template_path)
-
-    if not video_cap.isOpened():
-        print("No file")
-        exit()
-    
     upload_replay_to_youtube(video_path, replay_id)
-    update_timing(video_path)
-    video_cap.release()
+    replay_timing.update_timing(video_path)
     print(f"Done.")
  
 

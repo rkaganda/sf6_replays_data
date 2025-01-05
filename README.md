@@ -42,6 +42,17 @@
     - detects round starts and stores them in db
     - uploads replay to youtube
 
+#### src
+- replay_timing.py
+    - update_timing - detects round start and round end, stores round start and round end in db
+
+### data
+- enums
+    - characters - mactionid -> name
+    - act_s id -> str
+    - stance id -> str
+    - img_templates - used for round start, round end detection ```replay_timing.py```
+
 ## Setup
 - export_names.lua 
     - pulls act_st and stance from SF6, stores json in ```data\enum\```
