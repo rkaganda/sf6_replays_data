@@ -47,9 +47,11 @@
     - pulls act_st and stance from SF6, stores json in ```data\enum\```
 - export_actions.lua 
     - pulls character mActionNames for characters play, stores json in ```data\enum\characters```
+- db/scripts/create_view_migrations
+    - creates migrations for views
 - setup_db.py
-    - ```-create_tables``` creates tables to store replay data, suggest using ```alembic``` instead
-    - ```-update_sf6_data``` populates db with sf6 data from data\enum
+    - ```create_tables``` creates tables to store replay data, suggest using ```alembic upgrade head``` instead as this WILL NOT create the views
+    - ```update_sf6_data``` populates db with sf6 data from data\enum
 
 
 - generate_youtube_token.py

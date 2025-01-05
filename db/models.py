@@ -122,6 +122,7 @@ class VideoReplayTiming(Base):
     cfn_replay_id = Column(String, ForeignKey('cfn_replays.id', ondelete='CASCADE'), nullable=False)
     round_number = Column(Integer, nullable=False)
     round_start_time_seconds = Column(Float, nullable=False)
+    round_end_time_seconds = Column(Float, nullable=False)
     __table_args__ = (
         UniqueConstraint('cfn_replay_id', 'round_number', name='uix_cfn_replay_id_round_number_timing'),
     )
@@ -135,5 +136,14 @@ class YoutubeReplayVideo(Base):
     __table_args__ = (
         UniqueConstraint('cfn_replay_id', 'youtube_video_id', name='uix_youtube_video_replay_cfn_replay_id_youtube_video_id'),
     )
+    
 
+class HitstunSequencesView(Base):
+    __tablename__ = 'hitstun_sequences_view'
+    cfn_replay_id = Column(String, primary_key=True)
+    round_number = Column(Integer, primary_key=True)
+    player_id = Column(Integer, primary_key=True)
+    sequence_id = Column(Integer, primary_key=True)
+    start_frame = Column(Integer)
+    end_frame = Column(Integer)
 

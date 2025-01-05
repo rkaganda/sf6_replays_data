@@ -146,6 +146,7 @@ def populate_move_name_mapping(replay_data):
                         move_name=""
                     )
                     session.add(move_name_mapping)
+                    session.flush()
             session.commit()
         except Exception as e:
             session.rollback()

@@ -1,2 +1,5 @@
 absolute_range* (not working)
 move replay capture in replay_capture.lua and auto_replay_capture.lua to a single script
+
+alembic revision --autogenerate -m "Baseline migration"
+alembic upgrade head
