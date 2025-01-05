@@ -167,9 +167,9 @@ def get_round_starts(video_cap, fight_template_image, ko_template_image, p_ko_te
 
 
 def update_timing(video_path):
-    fight_template_path = "data/fight_region_div32_11_7_4_4.png"
-    ko_template_path = "data/ko_region_div64_21_12_7_12.png"
-    p_ko_template_path = "data/p_ko_region_div64_21_12_7_12.png"
+    fight_template_path = "data/img_templates/fight_region_div32_11_7_4_4.png"
+    ko_template_path = "data/img_templates/ko_region_div64_21_12_7_12.png"
+    p_ko_template_path = "data/img_templates/p_ko_region_div64_21_12_7_12.png"
 
     print(f"video_path={video_path}")
     replay_id = os.path.splitext(os.path.basename(video_path))[0]
