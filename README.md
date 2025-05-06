@@ -46,6 +46,13 @@
 - replay_timing.py
     - update_timing - detects round start and round end, stores round start and round end in db
 
+#### src
+- replay_sequences.py
+    - get_hitstun_sequences - retrieves hitstun sequences from `HitstunSequencesView`, enriched with move metadata
+    - create_if_not_exists_sequence - checks if a sequence of moves exists in `SequenceStep`, inserts if not, and links it to a replay
+    - upsert_replay_sequences - deletes existing replay sequences for a given replay, regenerates them using hitstun data
+
+
 ### data
 - enums
     - characters - mactionid -> name
