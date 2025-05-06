@@ -25,6 +25,7 @@ local characters = {
     [22] = "Akuma",
     [26] = "M Bison",
     [27] = "Terry",
+    [28] = "Mai",
 }
 
 local function collect_cached_names(player_index)
