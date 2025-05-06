@@ -1,4 +1,4 @@
-from sqlalchemy import BigInteger, Column, Float, ForeignKey, Integer, String, UniqueConstraint
+from sqlalchemy import BigInteger, Column, Float, ForeignKey, Index, Integer, String, UniqueConstraint
 from sqlalchemy.orm import declarative_base
 
 Base = declarative_base()
@@ -146,4 +146,35 @@ class HitstunSequencesView(Base):
     sequence_id = Column(Integer, primary_key=True)
     start_frame = Column(Integer)
     end_frame = Column(Integer)
+
+
+class ReplaySequence(Base):
+    __tablename__ = 'replay_sequences'
+    id = Column(Integer, primary_key=True)
+    sequence_id = Column(Integer, ForeignKey('sequences.id', ondelete='CASCADE'), nullable=False)
+    cfn_replay_id = Column(String, ForeignKey('cfn_replays.id', ondelete='CASCADE'), nullable=False)
+    start_frame = Column(Integer, nullable=False)
+    end_frame = Column(Integer, nullable=False)
+    round_number = Column(Integer, nullable=False)
+    player_id = Column(Integer, nullable=False)
+
+
+class Sequence(Base):
+    __tablename__ = 'sequences'
+    id = Column(Integer, primary_key=True)
+    starter_move_id = Column(Integer, ForeignKey('move_name_mappings.id'), nullable=False)
+    character_id = Column(Integer, ForeignKey('sf6_characters.id', ondelete='CASCADE'), nullable=False)
+
+
+class SequenceStep(Base):
+    __tablename__ = 'sequence_steps'
+    id = Column(Integer, primary_key=True)
+    sequence_id = Column(Integer, ForeignKey('sequences.id', ondelete='CASCADE'), nullable=False)
+    step_num = Column(Integer, nullable=False)
+    move_id = Column(Integer, ForeignKey('move_name_mappings.id'), nullable=False)
+    __table_args__ = (
+        Index('idx_sequence_steps_combined', 'sequence_id', 'step_num', 'move_id'),
+    )
+   
+
 
