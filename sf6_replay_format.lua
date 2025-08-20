@@ -25,6 +25,7 @@ sf6_replay_format.characterMapping = {
     ["20"] = "E Honda",
     ["21"] = "Jamie",
     ["22"] = "Akuma",
+    ["25"] = "Sagat"
     ["26"] = "M Bison",
     ["27"] = "Terry",
     ["28"] = "Mai",
