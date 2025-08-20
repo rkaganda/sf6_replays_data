@@ -114,6 +114,7 @@ class CFNReplay(Base):
     player_one_input_type = Column(Integer, nullable=False)
     player_two_input_type = Column(Integer, nullable=False)
     replay_battle_type = Column(Integer, nullable=False)
+    uploaded_at = Column(Integer, nullable=False)
 
 
 class VideoReplayTiming(Base):
@@ -176,5 +177,7 @@ class SequenceStep(Base):
         Index('idx_sequence_steps_combined', 'sequence_id', 'step_num', 'move_id'),
     )
    
+
+
 
 

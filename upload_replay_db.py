@@ -56,7 +56,8 @@ def create_cfn_replay_if_not_exists(session, replay_data):
             player_1_character_id = replay_data['player_data']['player_1_id'],
             player_one_input_type = replay_data['player_data']['player_1_input_type'],
             player_two_input_type = replay_data['player_data']['player_2_input_type'],
-            replay_battle_type = replay_data['replay_battle_type']
+            replay_battle_type = replay_data['replay_battle_type'],
+            uploaded_at = replay_data.get('uploaded_at', None)
         )
         session.add(cfn_replay)
         session.flush()
